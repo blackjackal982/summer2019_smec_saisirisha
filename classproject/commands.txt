@@ -1,0 +1,73 @@
+manage.py runserver
+manage.py makemigrations 
+// after you add the app to installed appsin settings.py and make model in models.py
+manage.py showmigrations
+manage.py migrate
+admin.register.model(College) after you import College from models
+You will get the college form on the website
+
+To get the data:
+c = College.objects.all()//returns query set of the objects
+for i in c:
+    print(i.field)
+
+c = College.objects.count() //returns count
+or print(len(c))
+
+//to get a specific column values
+c = College.objects.values_list('column_name') #used to return a list of data asked for ex: [(value1,value2),(value3,value4)...]
+
+c = College.objects.values('column_name') # used to return a key value pair ex: [{column_name1:value1},{column_name2:value2}...]
+
+//college count in a specific location
+c = College.objects.filter(location="Bhimavaram").count()
+
+//order all colleges in ascending order of acronym
+College.objects.order_by("acronym")
+
+//descending order
+ c = College.objects.order_by("-acronym")
+
+ //slicing to get top five records when we do slicing the sql query will be generated using the limit value and offset value
+ c = College.objects.order_by("-acronym")[0:5]
+
+ //limit set to 3 offset will be 2
+ c = College.objects.order_by("-acronym")[2:5]
+
+ //bottom 5 values
+ c = College.objects.order_by("-acronym")[College.objects.count()-5:]
+
+//group by command
+ from django.db.models import Count
+c = College.objects.values('location').annotate(count = Count('location'))
+
+//ordering the total
+c = College.objects.values('location').annotate(count = Count('location')).order_by('count')
+-count is for descending
+
+//get the college names of student who dropped out
+Student.objects.filter(dropped_out=True).values("College__name").distinct()
+s = Student.objects.filter(dropped_out=1).values('college__name').distinct()
+
+//get the total number of students from each college with college name
+__ represents inner join here
+s = Student.objects.values('college__name').annotate(count = Count('id'))
+
+//count of students coming from same location
+s = Student.objects.values('college__location').annotate(count = Count('id')).order_by('-count')
+
+//to print the location with max number of students
+s = Student.objects.values('college__location').annotate(count = Count('id')).aggregate(Max('count'))
+s = Student.objects.values('college__location').annotate(count = Count('id')).order_by('-count')[0:1]
+
+//student name,total marks ,college name from all 3 tables
+s = MockTest1.objects.values('student_id__name','total','student_id__college_id__acronym')
+s = Student.objects.values('name','mocktest1__total','college__acronym')
+
+//for one college student lists
+c = College.objects.values('name','student__name')
+
+//all students who score more than 30 in mocktest
+s = MockTest1.objects.filter(total__gte=30).values('student_id__name','total','student_id__college_id__acronym')
+
+

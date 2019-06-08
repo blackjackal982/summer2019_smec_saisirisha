@@ -1,0 +1,18 @@
+1.python garbage collection
+2.command line history
+3.figure out how does django debug toolbar work
+4.transaction isolation level
+5.does django use a database driver
+6.if there are multiple print statements and between two consecutive prints if there's a update what happens will it retrieve 
+new data?
+7.ORM-the layer which is bridge between the tables in django to the tables in database.
+
+	MODEL
+	  |
+	 ORM   
+          |   \  
+          |    \
+	  |	\
+	DRIVER1  DRIVER2
+	  |	   \
+	 MYSQL  SQLITE
