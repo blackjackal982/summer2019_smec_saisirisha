@@ -1,0 +1,25 @@
+Create a json object
+
+var college=['name':,'place':];
+
+To add objects
+college.push({object});
+
+To print all objects
+console.log(object);
+JSON.stringify(object);
+
+To access
+object[0]['name'] or object[0].name
+
+To print all
+for var c of colleges{
+console.log(c.name);
+}
+
+dynamic values to access
+ex : var key="name"
+for var c of colleges{
+console.log(c[key]); //.key will not work because key will be converted to string and it searches for the string
+			//whereas if [key] it substitutes the value of key and searches json.
+}

@@ -1,5 +1,6 @@
 from django.urls import include, path
 from onlineapp.views import *
+from .serializer_views import *
 import debug_toolbar
 
 
@@ -20,8 +21,11 @@ urlpatterns = [
 
     path('login',LoginView.as_view(),name="login_app"),
     path('signup',SignUpView.as_view(),name="signup_app"),
-    path('logout',logout_user,name="logout_app")
+    path('logout',logout_user,name="logout_app"),
 
+    path('api/v1/colleges',get_colleges),
+    path('api/v1/colleges/<int:pk>',get_colleges),
 
+    path('api/v1/colleges/<int:pk>/students',StudentSerializerView.as_view()),
+    path('api/v1/colleges/<int:pk>/students/<int:sk>',StudentSerializerView.as_view()),
 ]
-
