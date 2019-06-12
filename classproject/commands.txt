@@ -70,4 +70,7 @@ c = College.objects.values('name','student__name')
 //all students who score more than 30 in mocktest
 s = MockTest1.objects.filter(total__gte=30).values('student_id__name','total','student_id__college_id__acronym')
 
-
+//commands if debugger doesn't work
+Execute command prompt as adminstrator
+netstat -abno
+taskkill /F /PID <pid>

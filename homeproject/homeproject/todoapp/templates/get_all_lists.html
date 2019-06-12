@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>
+        TO DO LISTS
+    </title>
+</head>
+<body>
+{% if lists %}
+<table border="1px">
+    <tr><td><b>Id</b></td><td><b>Name</b></td><td><b>Current Time</b></td></tr>
+{% for list in lists %}
+    <tr><td>{{list.id}}</td><td><a href="/todoapp/items/{{list.id}}"/>{{list.name}}</td><td>{{list.current}}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
+</body>
+</html>

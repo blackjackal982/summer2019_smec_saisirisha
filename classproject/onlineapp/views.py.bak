@@ -1,0 +1,77 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import *
+
+# Create your views here.
+
+def helloWorldView(request):
+    htmlResp = """<html>
+                    <head><title>Hello World</title></head>
+                        <body>
+                        <p>
+                        "Hello World"<br>
+                        "This is my first django app"
+                        </p>
+                        </body>
+                    </html>"""
+    return HttpResponse(request.headers['foo'])
+
+def collegeName(request,acronym):
+    try:
+        college_name = College.objects.get(acronym=acronym)
+        return render(request,"tables.html",{'clgName':college_name})
+    except Exception:
+        return HttpResponse("No College found")
+
+def get_all_college(request):
+    colleges = College.objects.all()
+    return render(request,"tables.html",{'clgs':colleges})
+
+def college_student_info(request,college_id):
+    try:
+        college = College.objects.get(id = college_id)
+        student_info = Student.objects.filter(college=college).values('id','name','mocktest1__total')
+        return render(request,"student_info.html",{'students':student_info,'clgName':college.name})
+    except Exception:
+        raise ("No Data Found!")
+
+def post_colleges(request):
+    if request.method == 'POST':
+        if request.POST.get('college_name') and request.POST.get('location') and request.POST.get('acronym') and request.POST.get('contact'):
+            college = College()
+            college.name = request.POST.get('college_name')
+            college.location = request.POST.get('location')
+            college.acronym = request.POST.get('acronym')
+            college.contact = request.POST.get('contact')
+            college.save()
+        return render(request,'insert_college.html')
+    else:
+        return render(request, 'insert_college.html')
+
+
+def post_student(request):
+    colleges = College.objects.values('id','name')
+
+    if request.method == 'POST':
+        if request.POST.get('student_name') and request.POST.get('dob') and request.POST.get('email') \
+                and request.POST.get('db_folder') :
+            student = Student()
+            student.name = request.POST.get('student_name')
+            student.dob = request.POST.get('dob')
+            student.email = request.POST.get('email')
+            student.db_folder = request.POST.get('db_folder')
+
+            drop = request.POST.get('is_dropped_out')
+            student.dropped_out = True if drop else False
+
+
+            college_id = request.POST.get('dropdown')
+            try:
+                student.college = College.objects.get(id=college_id)
+                student.save()
+            except Exception:
+                raise TypeError
+
+        return render(request,'insert_student.html',{'colleges':colleges})
+    else:
+        return render(request, 'insert_student.html',{'colleges':colleges})

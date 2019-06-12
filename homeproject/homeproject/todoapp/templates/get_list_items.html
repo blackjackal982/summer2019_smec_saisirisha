@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>
+        TO DO LIST {{list}} ITEMS
+    </title>
+</head>
+<body>
+TO DO LIST {{list}} ITEMS
+{% if items %}
+<table border="1px">
+    <tr><td><b>Id</b></td><td><b>Description</b></td><td><b>Due Date</b></td><td><b>Completed</b></td></tr>
+{% for item in items %}
+    <tr><td>{{item.id}}</td><td>{{item.description}}</td><td>{{item.due_date}}</td><td>{{item.completed}}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
+</body>
+</html>

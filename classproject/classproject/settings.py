@@ -57,7 +57,7 @@ ROOT_URLCONF = 'classproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['../onlineapp/templates','../onlineapp/static'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -16,3 +16,5 @@ new data?
 	DRIVER1  DRIVER2
 	  |	   \
 	 MYSQL  SQLITE
+8. What gets returned when u say return HttpResponse()?
+9. What is the difference between put and patch?

@@ -1,0 +1,36 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+
+    <form action="" method="POST">
+        <div class="card">
+            {% csrf_token %}
+            <div class="control">
+                Name :{{form.name}}<br>
+            </div>
+            <div class="control">
+                Email :{{form.email}}<br>
+            </div>
+            <div class="control">
+                Db Folder :{{form.db_folder}}<br>
+            </div>
+            <div class="control">
+                Dropped out : {{form.dropped_out}}<br>
+            </div>
+            <div class="control">
+                Problem 1 : {{marks.problem1}}<br>
+            </div>
+            <div class="control">
+                Problem 2 : {{marks.problem2}}<br>
+            </div>
+            <div class="control">
+                Problem 3 : {{marks.problem3}}<br>
+            </div>
+            <div class="control">
+                Problem 4 : {{marks.problem4}}<br>
+            </div>
+            <input type="submit" value="Submit" class="button is-success"/>
+        </div>
+
+    </form>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+{% if 'onlineapp.add_college' in permissions %}
+<a href="{% url 'add_colleges' %}" class="button is-dark is-pulled-left">Add</a><br>
+{% endif %}
+    {% if colleges %}
+    <table border=1px class="table is-fullwidth is-bordered is-striped">
+        <tr><td>Acronym</td>
+            <td>College</td>
+            {% if 'onlineapp.change_college' in permissions %}
+            <td>Actions</td>
+            {% endif %}
+        </tr>
+        {% for clg in colleges %}
+        <tr>
+
+            <td>{{clg.acronym}}</td>
+            <td><a class = "button" href="{% url 'college_details' clg.id %}">{{ clg.name }}</a></td>
+            {% if 'onlineapp.change_college' in permissions %}
+            <td>
+                <a href="{% url 'edit_college' clg.id %}" class="button is-warning">Edit</a>
+                <a href="{% url 'delete_college' clg.id %}" class="button is-danger">Delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endblock %}
