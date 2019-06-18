@@ -1,0 +1,108 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+
+    <div align="center" class="container">
+    {% if match and season %}
+        <div class="box">
+        <div>
+            <label class="content"><b>{{season.team1}} vs.{{season.team2}}</b></label>
+        </div>
+            <hr>
+        <div>
+            Toss Result : {{season.toss_winner}} <br/>
+            Toss Decision :{{season.toss_decision}}<br/><br/>
+            Venue : {{season.venue}}<br/>
+            City : {{season.match_city}}<br/>
+        </div>
+            <hr>
+        <div>
+            Winner Team : {{season.winner}}<br/><br/>
+            {% if season.win_by_run %}
+            Won By Runs : {{season.win_by_run}}<br/>
+            {%endif%}
+            {% if season.win_by_wicket %}
+            Won By Wickets : {{season.win_by_wicket}}
+            {%endif%}
+            Player of the match : {{season.player}}<br/><br/>
+
+        </div>
+            <hr>
+            <div class="content">
+
+                <b>{{ match.0.batting_team }}</b>&nbsp;Total Runs:{{team1_obj.4}} (Extra:{{team1_obj.3}})
+                <br/>
+                <b>{{match.0.bowling_team}}</b>&nbsp;Total Runs:{{team2_obj.4}} (Extra:{{team2_obj.3}})
+                <br/>
+                <b>TOP RUN_SCORERS:</b><br/>
+                {% for player in top_scorer %}
+                {{player.0}}: {{player.1}}<br/>
+                {% endfor %}
+                <b>TOP WICKETS:</b><br/>
+                {% for bowler in top_wickets_team %}
+                {{bowler.0}}:{{bowler.1}}<br/>
+                {% endfor %}
+                <br/>
+
+
+        </div>
+             </div>
+        <nav class="pagination is-centered">
+            <ul class="pagination-list">
+                {% if number == 2 %}
+                <a href="?page=1" class="button">Innings 1</a>
+                {% else %}
+                <a href="?page=2" class="button">Innings 2</a>
+                {% endif %}
+            </ul>
+
+        </nav>
+            <div align="center">
+                {%if match%}
+                <table class="table">
+                    <tr>
+                        <th>Over</th>
+                        <th>Ball</th>
+                        <th>Batsman</th>
+                        <th>Non-Striker</th>
+                        <th>Bowler</th>
+                        <th>Runs/Wicket</th>
+                    </tr>
+                    {% for i in match %}
+                   <tr>
+                       <td>
+                          {{ i.over}}
+                       </td>
+                       <td>
+                           {{i.ball}}
+                       </td>
+                       <td>
+                           {{i.batsman}}
+                       </td>
+                       <td>
+                           {{i.non_striker}}
+                       </td>
+                       <td>
+                           {{i.bowler}}
+                       </td>
+                       <td>
+
+                           {% if i.dismissal_kind %}
+                           {{i.dismissal_kind}} {% if i.fielder %}by {{i.fielder}} {% endif %}
+                           {% else %}
+                           {{i.total_runs}}
+                           {% endif %}
+                       </td>
+                   </tr>
+                    {% endfor %}
+
+                </table>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+        {% endif %}
+
+{% endblock %}

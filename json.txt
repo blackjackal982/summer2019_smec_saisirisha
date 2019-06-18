@@ -23,3 +23,32 @@ for var c of colleges{
 console.log(c[key]); //.key will not work because key will be converted to string and it searches for the string
 			//whereas if [key] it substitutes the value of key and searches json.
 }
+
+14-06-2019
+
+SCALING OF SERVERS
+
+Scale up :multiple CPU"S 
+
+Scale out: multiple instances/threads for same server
+
+Use load balanacer for balancing the requests equally among multiple instances  and redirect .
+
+How to distribute load?
+Round Robin
+Least Connection
+IP Hash
+Weighted
+
+There are two types of client side connections sticky and presistent
+
+nginx is a proxy server(reverse)
+used for reverse proxy sits infront of server.
+fwd proxy blocks sites sits infront of client.
+
+set up nginx as load balancer.
+1.url validation
+2.load balancer
+
+
+what is host header?

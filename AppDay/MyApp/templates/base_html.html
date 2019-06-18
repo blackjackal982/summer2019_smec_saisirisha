@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'bulma.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <title>{{title}}</title>
+</head>
+<body>
+<section class="hero is-info">
+<nav  class="is-top-fixed is-success">
+    <img src="{% static '/images/IPL-logo.jpg' %}" height="150" width="150" class="img-fluid rounded-circle" style="position:fixed,"/>
+    <ul>
+        <li class="has-text-centered is-size-2">IPL APP</li>
+    {% if authenticated %}
+        <div>
+        <li class="navbar-item is-pulled-right">{{name}}
+        <i class="fa fa-id-card fa-2"></i>
+        </li>
+        </div>
+        <div>
+        <li class="button is-light is-pulled-right"><a href="{% url 'logout_app' %}">Logout</a></li>
+        </div>
+    {% else %}
+    <li class="button is-light is-pulled-right"><a href="{% url 'login_app' %}">Login</a></li>
+    {% endif %}
+        </ul>
+</nav>
+</section>
+{% block content %}
+{% endblock %}
+</body>
+</html>

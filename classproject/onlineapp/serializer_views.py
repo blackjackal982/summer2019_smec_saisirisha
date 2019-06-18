@@ -1,16 +1,32 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view,APIView
+from rest_framework.decorators import api_view,APIView,authentication_classes,permission_classes
 from rest_framework import status
 from .serializers import *
+
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication,TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
 
+@api_view(['POST'])
+def generate_token(request):
+    serializer = AuthTokenSerializer(data = request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.validated_data['user']
+    token,created = Token.objects.get_or_create(user=user)
+    return Response({
+        'token': token.key,
+        'user':user.id,
+    })
 
-
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET','POST','DELETE','PUT'])
+#@authentication_classes((TokenAuthentication,))
+@authentication_classes((SessionAuthentication,BasicAuthentication))
+@permission_classes((IsAuthenticated,))
 def get_colleges(request,*args,**kwargs):
 
     if request.method =='GET':
-
         if not kwargs:
             try:
                 colleges = College.objects.all()
@@ -57,6 +73,11 @@ def get_colleges(request,*args,**kwargs):
 class StudentSerializerView(APIView):
 
     def get(self,request,*args,**kwargs):
+
+        #authentication_classes = ( TokenAuthentication)
+        authentication_classes=(SessionAuthentication,BasicAuthentication)
+        permission_classes = (IsAuthenticated,)
+
         college = College.objects.get(id=kwargs.get('pk'))
 
         if not kwargs.get('sk'):
@@ -80,9 +101,9 @@ class StudentSerializerView(APIView):
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def put(self, request, pk,sk, format=None):
-        student = get_object_or_404(Student,id=sk)
-        serializer = StudentSerializer(student, data=request.data)
+    def put(self, request,*args,**kwargs):
+        student = get_object_or_404(Student,id=kwargs.get('sk'))
+        serializer = StudentDetailsSerializer(student, data=request.data,context={'college_id':kwargs.get('pk'),'sk':kwargs.get('sk')})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

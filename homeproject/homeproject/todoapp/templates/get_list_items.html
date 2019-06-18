@@ -1,18 +1,33 @@
-<html>
-<head>
-    <title>
-        TO DO LIST {{list}} ITEMS
-    </title>
-</head>
-<body>
-TO DO LIST {{list}} ITEMS
+{% extends 'base_html.html' %}
+
+{% block content %}
+<a href="{% url 'add_item' list_id %}" class="button is-info">Add Item</a>
 {% if items %}
-<table border="1px">
-    <tr><td><b>Id</b></td><td><b>Description</b></td><td><b>Due Date</b></td><td><b>Completed</b></td></tr>
+<div align="center"><b>TO DO LIST {{lists}} ITEMS</b></div>
+<div class="centerall">
+<table border="1px" class="table is-striped ">
+    <tr>
+        <td><b>Id</b></td>
+        <td><b>Description</b></td>
+        <td><b>Due Date</b></td>
+        <td><b>Completed</b></td>
+        <td><b>Actions</b></td>
+    </tr>
 {% for item in items %}
-    <tr><td>{{item.id}}</td><td>{{item.description}}</td><td>{{item.due_date}}</td><td>{{item.completed}}</td></tr>
+    <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.due_date}}</td>
+        <td>{{item.completed}}</td>
+        <td>
+            <form method="POST">
+            <a href="" class="button is-warning">Edit</a>
+            <a href="{% url 'delete_item' list_id item.id%}" class="button is-danger">Delete</a>
+            </form>
+        </td>
+    </tr>
 {% endfor %}
 </table>
+</div>
 {% endif %}
-</body>
-</html>
+{% endblock %}

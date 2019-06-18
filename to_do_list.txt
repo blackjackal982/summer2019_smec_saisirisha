@@ -18,3 +18,12 @@ new data?
 	 MYSQL  SQLITE
 8. What gets returned when u say return HttpResponse()?
 9. What is the difference between put and patch?
+10. How to avoid traffic when you either have stale version or updated version of css files when there are multiple users
+and multiple requests?
+ DT20195426065:TCS 
+
+11. Active pooling and condition variables in python for threads.
+12. Global interpreter locker 
+13.Read about condition variables and find bugs.
+14. locks in logging ?
+15. where are thread locals used in django?

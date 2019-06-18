@@ -1,0 +1,11 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+<form method="POST" class="login-card">
+    {% csrf_token %}
+    <div class="login-title has-text-info has-text-centered">SIGNUP</div>
+    {{form.as_p}}
+<button type="submit" class="button is-primary">Sign Up</button>
+<a href="{% url 'login_app' %}" class="button is-primary">Login</a>
+</form>
+{% endblock %}

@@ -23,9 +23,12 @@ urlpatterns = [
     path('signup',SignUpView.as_view(),name="signup_app"),
     path('logout',logout_user,name="logout_app"),
 
-    path('api/v1/colleges',get_colleges),
-    path('api/v1/colleges/<int:pk>',get_colleges),
+    path('api/v1/colleges/',get_colleges),
+    path('api/v1/colleges/<int:pk>/',get_colleges),
 
     path('api/v1/colleges/<int:pk>/students',StudentSerializerView.as_view()),
     path('api/v1/colleges/<int:pk>/students/<int:sk>',StudentSerializerView.as_view()),
+    path('api/v1/token/',generate_token),
+
+    #path('testpath',my_first_view)
 ]

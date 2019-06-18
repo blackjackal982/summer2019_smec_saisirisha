@@ -25,7 +25,7 @@ SECRET_KEY = '_y@rl)75t6vtux)yzxnu%9^1ds-7a5px4btio!p%jxvloll)v$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1","sma","localhost"]
 
 
 # Application definition
@@ -40,20 +40,35 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'rest_framework',
+'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'classproject.urls'
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.sysinfo.SysInfo',
+)
 
 TEMPLATES = [
     {
@@ -73,6 +88,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'classproject.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+    )
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -106,6 +128,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+LOGGING={
+    'version':1,
+    'filters':{
+        'require_debug_true':{
+            '()':'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'handlers':{
+      'file':{
+          'level':'DEBUG',
+          'class':'logging.FileHandler',
+          'filename':'queries.log',
+      }
+    },
+    'loggers':{
+        'django.db.backends':{
+            'level':'DEBUG',
+            'handlers':['file'],
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

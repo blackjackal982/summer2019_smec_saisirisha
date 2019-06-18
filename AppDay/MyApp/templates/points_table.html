@@ -1,0 +1,44 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+<div style="margin-left: 49%;">
+    <select onchange= "window.location=this.options[this.selectedIndex].value" align="center">
+        <!--remember state-->
+
+        <option value = 'http://localhost:8000/home/season/2008/points'>2008</option>
+        <option value = 'http://localhost:8000/home/season/2009/points'>2009</option>
+        <option value = 'http://localhost:8000/home/season/2010/points'>2010</option>
+        <option value = 'http://localhost:8000/home/season/2011/points'>2011</option>
+        <option value = 'http://localhost:8000/home/season/2012/points'>2012</option>
+        <option value = 'http://localhost:8000/home/season/2013/points'>2013</option>
+        <option value= 'http://localhost:8000/home/season/2014/points'>2014</option>
+        <option value= 'http://localhost:8000/home/season/2015/points'>2015</option>
+        <option value= 'http://localhost:8000/home/season/2016/points'>2016</option>
+        <option value= 'http://localhost:8000/home/season/2017/points'>2017</option>
+        <option value= 'http://localhost:8000/home/season/2018/points'>2018</option>
+        <option value= 'http://localhost:8000/home/season/2019/points'>2019</option>
+    </select>
+            </div>
+
+    <div align="center" class="container">
+        <div class="box">
+        {% if points %}
+        <table class="table is-striped">
+            <th>
+                Team Name:
+            </th>
+            <th>
+                Points:
+            </th>
+
+        {% for i in points %}
+            <tr>
+                <td>{{ i.0 }}</td><td>{{i.1}}</td>
+            </tr>
+        {%endfor%}
+            </div>
+            </table>
+        {% endif %}
+    </div>
+
+{% endblock %}

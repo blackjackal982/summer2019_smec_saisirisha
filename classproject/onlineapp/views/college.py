@@ -1,5 +1,4 @@
 from django.views import View
-from onlineapp.models import *
 
 from django.urls import resolve
 from django.http import HttpResponseRedirect

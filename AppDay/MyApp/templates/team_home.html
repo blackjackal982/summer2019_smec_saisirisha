@@ -1,0 +1,131 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+<script>
+    const fun1 =() =>{
+         selectteam=document.getElementById('selectteam');
+         val2=selectteam.options[selectteam.selectedIndex].value;
+        if (val2!= 'select')
+         {
+            select= document.getElementById('select');
+            val1=select.options[select.selectedIndex].value;
+            window.location='http://127.0.0.1:8000/home/season/'+val1+'/team_home/'+val2;
+        }
+    }
+    const fun2= () =>{
+        select= document.getElementById('select');
+        if (select.options[select.selectedIndex].value=='select')
+        {
+            div=document.getElementById('teams');
+            div.style.display="none";
+        }
+        else
+        {
+            div=document.getElementById('teams');
+            div.style.display="block";
+        }
+    }
+</script>
+<div style="margin-left: 49%;">
+    <select id="select" onchange="fun2()" align="center">
+        <!--remember state-->
+        <option value="select">select</option>
+        <option value = '2008'>2008</option>
+        <option value = '2009'>2009</option>
+        <option value = '2010'>2010</option>
+        <option value = '2011'>2011</option>
+        <option value = '2012'>2012</option>
+        <option value = '2013'>2013</option>
+        <option value= '2014'>2014</option>
+        <option value= '2015'>2015</option>
+        <option value= '2016'>2016</option>
+        <option value= '2017'>2017</option>
+        <option value= '2018'>2018</option>
+        <option value= '2019'>2019</option>
+    </select>
+            </div>
+
+    <div id="teams" style="margin-left: 45%; display:none;">
+        <select onchange= fun1() id="selectteam" align="center">
+        <!--remember state-->
+            <option value="select">select</option>
+            {% if teams %}
+            {% for i in teams%}
+         <option value='{{i.0}}'>{{i.0}}</option>
+            {% endfor %}
+            {% endif %}
+    </select>
+    </div>
+    <div>
+        {% if matches %}
+        <table class="table is-striped" align="center">
+            <tr>
+                <th>
+                    Team Name:
+                </th>
+                <th>
+                    Toss Winner and Decision:
+                </th>
+                <th>
+                    Winner:
+                </th>
+                <th>
+                    Player of Match:
+                </th>
+                <th>
+                    Won By Run/Wicket:
+                </th>
+            </tr>
+        {% for i in matches %}
+            <tr>
+                <td>
+                    {{i.team2}}
+                </td>
+                <td>
+                    {{i.toss_winner}}&nbsp;,{{i.toss_decision}}&nbsp;
+                </td>
+                <td>
+                    {{i.winner}}
+                </td>
+                <td>
+                    {{i.player}}
+                </td>
+                <td>
+                    {% if i.win_by_wicket %}
+                    Wickets:{{i.win_by_wicket}}
+                    {% endif %}
+                    {% if i.win_by_run %}
+                    Runs:{{i.win_by_run}}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+            {% for i in match %}
+            <tr>
+                <td>
+                    {{i.team1}}
+                </td>
+                <td>
+                    {{i.toss_winner}}&nbsp;,{{i.toss_decision}}&nbsp;
+                </td>
+                <td>
+                    {{i.winner}}
+                </td>
+                <td>
+                    {{i.player}}
+                </td>
+                <td>
+                    {% if i.win_by_wicket %}
+                    Wickets:{{i.win_by_wicket}}
+                    {% endif %}
+                    {% if i.win_by_run %}
+                    Runs:{{i.win_by_run}}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -22,7 +22,7 @@ class StudentDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'dob', 'email', 'db_folder', 'dropped_out','mocktest1')
+        fields = ('id', 'name', 'dob', 'email', 'db_folder', 'dropped_out','college','mocktest1')
 
     def create(self,validated_data):
         mock_vals = validated_data.pop('mocktest1')
@@ -41,9 +41,23 @@ class StudentDetailsSerializer(serializers.ModelSerializer):
         return student
 
     def update(self, instance, validated_data):
+        mock_obj = MockTest1.objects.get(student_id=instance.id)
+        mock_obj.problem1 = validated_data['mocktest1']['problem1']
+        mock_obj.problem2 = validated_data['mocktest1']['problem2']
+        mock_obj.problem3 = validated_data['mocktest1']['problem3']
+        mock_obj.problem4 = validated_data['mocktest1']['problem4']
+        mock_obj.total = sum([
+            mock_obj.problem1,
+            mock_obj.problem2,
+            mock_obj.problem3,
+            mock_obj.problem4
+        ])
+        mock_obj.save()
+
         instance.name = validated_data.get('name', instance.name)
-        instance.dob = validated_data.get('dob', instance.dob)
-        instance.email = validated_data.get('created', instance.email)
+        instance.email = validated_data.get('email', instance.email)
         instance.db_folder = validated_data.get('db_folder',instance.db_folder)
         instance.dropped_out = validated_data.get('dropped_out',instance.dropped_out)
+        instance.college = College.objects.get(id=self.context['college_id'])
+
         return instance

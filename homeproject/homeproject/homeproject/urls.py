@@ -20,7 +20,7 @@ import todoapp.urls as urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todoapp/', include(urls)),
+    path('', include(urls)),
 ]
 
 if settings.DEBUG:

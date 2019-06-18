@@ -1,17 +1,30 @@
-<html>
-<head>
-    <title>
-        TO DO LISTS
-    </title>
-</head>
-<body>
+{% extends 'base_html.html' %}
+
+{% block content %}
+<a href="{% url 'add_list' %}" class="button is-info">Add List</a>
 {% if lists %}
-<table border="1px">
-    <tr><td><b>Id</b></td><td><b>Name</b></td><td><b>Current Time</b></td></tr>
+<div class="centerall">
+<table border="1px" class="table is-striped centerall">
+    <tr>
+        <td><b>Id</b></td>
+        <td><b>Name</b></td>
+        <td><b>Created Time</b></td>
+        <td><b>Actions</b></td>
+    </tr>
 {% for list in lists %}
-    <tr><td>{{list.id}}</td><td><a href="/todoapp/items/{{list.id}}"/>{{list.name}}</td><td>{{list.current}}</td></tr>
+    <tr>
+        <td>{{list.id}}</td>
+        <td><a href="{% url 'list_items' list.id%}" class="button is-light">{{list.name}}</a></td>
+        <td>{{list.current}}</td>
+        <td>
+            <form method="POST">
+            <a href="" class="button is-warning">Edit</a>
+            <a href="{% url 'delete_list' list.id %}" class="button is-danger">Delete</a>
+            </form>
+        </td>
+    </tr>
 {% endfor %}
 </table>
+</div>
 {% endif %}
-</body>
-</html>
+{%endblock%}
