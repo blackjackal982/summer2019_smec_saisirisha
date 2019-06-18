@@ -37,4 +37,10 @@ class TeamHomeView(View):
 
 class HomeView(View):
     def get(self,request,*args,**kwargs):
-        
+        teams = Match.objects.values_list('team1').distinct()
+        print(teams)
+        return render(request,
+                      template_name='home.html',
+                      context={
+                          'teams':teams,
+                      })

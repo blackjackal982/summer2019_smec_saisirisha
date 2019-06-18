@@ -1,98 +1,13 @@
 {% extends 'base_html.html' %}
 
 {% block content %}
-<form>
-    {% csrf_token %}
-    <div class="dropdown is-active">
-  <div class="dropdown-trigger">
-    <select onchange= "window.location=this.options[this.selectedIndex].value" >
-        <!--remember state-->
-        <option value="http://localhost:8000/home/season/page/1">Select All</option>
-        <option value = 'http://localhost:8000/home/season/2008'>2008</option>
-        <option value = 'http://localhost:8000/home/season/2009'>2009</option>
-        <option value = 'http://localhost:8000/home/season/2010'>2010</option>
-        <option value = 'http://localhost:8000/home/season/2011'>2011</option>
-        <option value = 'http://localhost:8000/home/season/2012'>2012</option>
-        <option value = 'http://localhost:8000/home/season/2013'>2013</option>
-        <option value= 'http://localhost:8000/home/season/2014'>2014</option>
-        <option value= 'http://localhost:8000/home/season/2015'>2015</option>
-        <option value= 'http://localhost:8000/home/season/2016'>2016</option>
-        <option value= 'http://localhost:8000/home/season/2017'>2017</option>
-        <option value= 'http://localhost:8000/home/season/2018'>2018</option>
-        <option value= 'http://localhost:8000/home/season/2019'>2019</option>
-    </select>
-  </div>
-    </div>
-    <div>
-        <div class="card-label is-pulled-right">
-    <a href="{% url 'points' year %}" class="is-pulled-right">POINTS TABLE</a>
-            </div>
-    {% if seasons %}
-    <table align="center"  border="1px" class="table is-striped">
-     <tr>
-         <td>
-             <b>Teams Played</b>
-         </td>
-         <td>
-             <b> Venue</b>
-         </td>
-         <td>
-             <b> Toss result and decision</b>
-         </td>
-         <td>
-             <b>Result</b>
-         </td>
-         <td>
-             <b> Player of the match</b>
-         </td>
-         <td>
-             <b>Details</b>
-         </td>
-     </tr>
-    {% for season in seasons %}
-    <tr>
-        <td>
-
-            {{season.team1}}&nbsp;vs.&nbsp;{{season.team2}}
-        </td>
-        <td>
-            {{season.venue}},{{season.match_city}}
-        </td>
-        <td>
-            {{season.toss_winner}},{{season.toss_decision}}
-        </td>
-        <td>
-            {{season.result}}
-        </td>
-        <td>
-            {{season.player}}
-        </td>
-        <td>
-            <a href="{% url 'match' year season.match_id %}" class="button is-light">Check Details</a>
-        </td>
-    </tr>
-
-    {% endfor %}
-    {% endif %}
-        </table>
-        <div class="pagination is-centered" >
-    <ul class="pagination-list">
-        {% if seasons.has_previous %}
-            <a href="?page=1" class="button pagination-previous">&laquo; First</a>
-            <a href="?page={{ seasons.previous_page_number }}" class="button">Previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ seasons.number }} of {{ seasons.paginator.num_pages }}.
-        </span>
-
-        {% if seasons.has_next %}
-            <a href="?page={{ seasons.next_page_number }}" class="button">Next</a>
-            <a href="?page={{ seasons.paginator.num_pages }}" class="button pagination-next">Last &raquo;</a>
-        {% endif %}
-    </ul>
+<div align="center" class="container">
+        <div class="box">
+        <div>
+        {% for i in teams %}
+            <a href="{% url 'team_home' 2019 i.0 %}" class="button is-light">{{i.0}}</a><hr>
+{% endfor %}
+             </div>
+        </div>
 </div>
-
-    </div>
-</form>
 {% endblock %}

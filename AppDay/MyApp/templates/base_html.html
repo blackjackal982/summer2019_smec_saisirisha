@@ -10,23 +10,42 @@
 </head>
 <body>
 <section class="hero is-info">
-<nav  class="is-top-fixed is-success">
-    <img src="{% static '/images/IPL-logo.jpg' %}" height="150" width="150" class="img-fluid rounded-circle" style="position:fixed,"/>
-    <ul>
-        <li class="has-text-centered is-size-2">IPL APP</li>
-    {% if authenticated %}
+<nav  class="is-top-fixed is-success" role="navigation" aria-label="main navigation">
+    <img src="{% static '/images/IPL-logo.jpg' %}" height="150" width="150" class="img-fluid rounded-circle"/>
+    <div >
+        <div class="has-text-centered is-size-2">IPL APP</div>
         <div>
-        <li class="navbar-item is-pulled-right">{{name}}
-        <i class="fa fa-id-card fa-2"></i>
-        </li>
+            <div class="navbar-menu">
+    <!-- navbar start, navbar end -->
+                <div>
+                    <a href="{% url 'points' 2019%}" class="navbar-item is-warning is-focused">Points Table</a>
+                </div>
+                {% if authenticated %}
+                <div>
+                    <a href="{% url 'home' %}" class="navbar-item is-warning is-focused">Home Page</a>
+                </div>
+                <div>
+                    <a href="{% url 'iplhome' %}" class="navbar-item is-warning is-focused">Team Page</a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item button is-light is-right">
+                        <a href="{% url 'logout_app' %}">Logout</a>
+                    </div>
+                    {% else %}
+                    <div class="navbar-end">
+                    <div class="navbar-item button is-light is-right">
+                        <a href="{% url 'login_app' %}">Login</a>
+                    </div>
+                    </div>
+                    <div class="navbar-item is-right">
+                        {{name}}
+                        <i class="fa fa-id-card fa-2"></i>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
         </div>
-        <div>
-        <li class="button is-light is-pulled-right"><a href="{% url 'logout_app' %}">Logout</a></li>
-        </div>
-    {% else %}
-    <li class="button is-light is-pulled-right"><a href="{% url 'login_app' %}">Login</a></li>
-    {% endif %}
-        </ul>
+    </div>
 </nav>
 </section>
 {% block content %}
