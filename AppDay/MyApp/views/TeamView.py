@@ -40,7 +40,9 @@ class HomeView(View):
         teams = Match.objects.values_list('team1').distinct()
         print(teams)
         return render(request,
-                      template_name='home.html',
+                      template_name='iplhome.html',
                       context={
                           'teams':teams,
+                          'authenticated': request.user.is_authenticated,
+                          'name': request.user.username,
                       })

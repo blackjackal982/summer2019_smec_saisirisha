@@ -2,33 +2,36 @@
 
 {% block content %}
 {% if 'onlineapp.add_student' in permissions %}
-<a href="{% url 'add_student' clg.id %}" class="button is-primary is-pulled-left"> Add Student</a>
+<a href="{% url 'add_student' clg.id %}" class="button is-dark is-pulled-left">+ Add Student</a>
 {% endif %}
-{{clgName}} Marks
-
+<div class="has-text-centered is-size-3 is-family-sans-serif">
+    <b>{{clgName}}</b>
+</div>
 {% if students %}
-<table border=1px class="table is-striped is-fullwidth is-bordered">
-    <tr>
-        <td>ID</td>
-        <td>NAME</td>
-        <td>TOTAL</td>
-        {% if 'onlineapp.add_student' in permissions %}
-        <td>ACTIONS</td>
-        {% endif %}
-    </tr>
-    {% for student in students %}
-    <tr>
-        <td>{{student.id}}</td>
-        <td>{{student.name}}</td>
-        <td>{{student.mocktest1.total}}</td>
-        {% if 'onlineapp.add_student' in permissions %}
-        <td>
-            <a href="{% url 'edit_student' clg.id student.id%}" class="button is-warning">Edit</a>&nbsp<a
-                href="{% url 'delete_student' clg.id student.id %}" class="button is-danger">Delete</a>
-        </td>
-        {% endif %}
-    </tr>
-    {% endfor %}
-</table>
+<div>
+    <table align="center" border=1px class="table is-striped is-bordered">
+        <tr>
+            <td>ID</td>
+            <td>NAME</td>
+            <td>TOTAL</td>
+            {% if 'onlineapp.add_student' in permissions %}
+            <td>ACTIONS</td>
+            {% endif %}
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{student.id}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.mocktest1.total}}</td>
+            {% if 'onlineapp.add_student' in permissions %}
+            <td>
+                <a href="{% url 'edit_student' clg.id student.id%}" class="button is-warning">Edit</a>&nbsp<a
+                    href="{% url 'delete_student' clg.id student.id %}" class="button is-danger">Delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endif %}
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+<div align="center" class="container">
+        <div class="box">
+        <div>
+        {% for i in teams %}
+            <a href="{% url 'team_home' 2019 i.0 %}" class="button is-light">{{i.0}}</a><hr>
+{% endfor %}
+             </div>
+        </div>
+</div>
+{% endblock %}

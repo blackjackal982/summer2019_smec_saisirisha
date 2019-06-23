@@ -1,36 +1,40 @@
 {% extends 'base_html.html' %}
-
+{% load static %}
 {% block content %}
-
-    <form action="" method="POST">
-        <div class="card">
-            {% csrf_token %}
-            <div class="control">
-                Name :{{form.name}}<br>
-            </div>
-            <div class="control">
-                Email :{{form.email}}<br>
-            </div>
-            <div class="control">
-                Db Folder :{{form.db_folder}}<br>
-            </div>
-            <div class="control">
-                Dropped out : {{form.dropped_out}}<br>
-            </div>
-            <div class="control">
-                Problem 1 : {{marks.problem1}}<br>
-            </div>
-            <div class="control">
-                Problem 2 : {{marks.problem2}}<br>
-            </div>
-            <div class="control">
-                Problem 3 : {{marks.problem3}}<br>
-            </div>
-            <div class="control">
-                Problem 4 : {{marks.problem4}}<br>
-            </div>
-            <input type="submit" value="Submit" class="button is-success"/>
+<form method="POST">
+    {% csrf_token %}
+    <div class="columns is-desktop is-centered" style="padding-left:5%">
+        <div class="login column is-4 ">
+            <section class="section">
+                <div class="field">
+                    <div class="control has-icons-right">
+                        <label class="label"> Name : {{form.name}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label">Email : {{form.email}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label"> Db Folder :{{form.db_folder}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label"> Problem 1 :{{marks.problem1}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label"> Problem 2 : {{marks.problem2}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label"> Problem 3 :{{marks.problem3}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label"> Problem 4 : {{marks.problem4}}</label>
+                    </div>
+                    <div class="control has-icons-right">
+                        <label class="label"> Dropped out : {{form.dropped_out}}</label>
+                    </div>
+                    <input type="submit" value="Submit" class="button is-success"/>
+                </div>
+            </section>
         </div>
-
-    </form>
+    </div>
+</form>
 {% endblock %}

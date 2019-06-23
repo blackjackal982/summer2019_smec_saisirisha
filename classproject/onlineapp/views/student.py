@@ -37,6 +37,7 @@ class AddStudentView(View):
                      'marks': marks_form,
                      'permissions': request.user.get_all_permissions(),
                      'authenticated': request.user.is_authenticated,
+                     'user': request.user.username,
                      }
         )
 
@@ -59,7 +60,7 @@ class AddStudentView(View):
             form.save()
             marks_form.save()
 
-            return HttpResponseRedirect('/colleges')
+            return redirect('college_details', pk=kwargs.get('pk'))
 
         else:
             form = AddStudent(request.POST)
@@ -79,11 +80,12 @@ class AddStudentView(View):
                 marks.total = total
                 marks.save()
 
-                return HttpResponseRedirect('/colleges')
+                return redirect('college_details', pk=kwargs.get('pk'))
             else:
                 return render(request, template_name='insert_student.html',
                       context={'form': form,
                                'title': 'Add Student | Mentor App',
                                'permissions': request.user.get_all_permissions(),
                                'authenticated': request.user.is_authenticated,
+                               'user':request.user.username,
                                })

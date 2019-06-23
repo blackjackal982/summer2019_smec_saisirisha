@@ -21,6 +21,7 @@ class CollegeView(LoginRequiredMixin, View):
                                    'permissions': request.user.get_all_permissions(),
                                    'clg': college,
                                    'authenticated': request.user.is_authenticated,
+                                   'user': request.user.username,
                                    }
                           )
 
@@ -33,6 +34,7 @@ class CollegeView(LoginRequiredMixin, View):
                                'title': ' Participating Colleges',
                                'permissions': request.user.get_all_permissions(),
                                'authenticated': request.user.is_authenticated,
+                               'user': request.user.username,
                                }
                       )
 
@@ -47,7 +49,9 @@ class AddCollegeView(LoginRequiredMixin, View):
             form = AddCollege(instance=college)
 
         return render(request, template_name='insert_college.html',
-                      context={'form': form, 'authenticated': request.user.is_authenticated, })
+                      context={'form': form,
+                               'authenticated': request.user.is_authenticated,
+                               'user': request.user.username, })
 
     def post(self, request, *args, **kwargs):
 
@@ -70,6 +74,10 @@ class AddCollegeView(LoginRequiredMixin, View):
             form.save()
             return HttpResponseRedirect('/colleges')
         else:
-            return render(request, template_name='insert_college.html',
-                          context={'form': form, 'title': 'Add College | Mentor App', 'errors': form.errors,
-                                   'authenticated': request.user.is_authenticated})
+            return render(request,
+                          template_name='insert_college.html',
+                          context={'form': form, 'title': 'Add College | Mentor App',
+                                   'errors': form.errors,
+                                   'authenticated': request.user.is_authenticated,
+                                   'user': request.user.username,
+                                   })

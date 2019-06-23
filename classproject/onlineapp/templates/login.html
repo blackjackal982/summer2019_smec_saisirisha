@@ -1,11 +1,56 @@
 {% extends 'base_html.html' %}
-
+{% load static %}
 {% block content %}
-<form method="POST" class="login-card">
+
+<form method="POST">
     {% csrf_token %}
-    <div class="card-title has-text-info has-text-centered">LOGIN</div>
-    {{form.as_p}}
-    <button type="submit" class="button is-primary is-centered">Login</button><br>
-    <a href="{% url 'signup_app' %}" class="button is-primary is-centered">SignUp</a>
+    <div class="columns is-desktop is-vcentered" style="padding-left:40%">
+        <div class="login column is-4 ">
+            {% if messages %}
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>Errors</p>
+                    <button class="delete" aria-label="delete"></button>
+                </div>
+                <div class="message-body">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            </article>
+            {% endif %}
+            <section class="section">
+                <div class="has-text-centered">
+                    <img class="login-logo" src="{% static '/images/avatar.png' %}" height="100px" width="100px">
+                </div>
+
+                <div class="field">
+                    <div class="control has-icons-right">
+                        <label class="label">{{form.username}}</label>
+                        <span class="icon is-small is-right">
+                <i class="fa fa-user"></i>
+              </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control has-icons-right">
+                        <label class="label">{{form.password}}</label>
+                        <span class="icon is-small is-right">
+                <i class="fa fa-key"></i>
+              </span>
+                    </div>
+                </div>
+                <div class="has-text-centered">
+                    <button type="submit" class="button is-vcentered is-primary is-outlined">Login</button>
+                </div>
+                <div class="has-text-centered">
+                    <a href="{% url 'signup_app' %}"> Don't you have an account? Sign up now!</a>
+                </div>
+            </section>
+        </div>
+        <div id="particles-js" class="interactive-bg column is-8">
+        </div>
+    </div>
 </form>
 {% endblock %}

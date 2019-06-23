@@ -10,18 +10,30 @@
 </head>
 <body>
 <section class="hero is-success">
-<nav  class="is-top-fixed is-success">
-    <ul>
-        <li class="has-text-centered">Mentor APP</li>
+    <nav class="is-top-fixed is-success">
+        <div class="has-text-centered is-size-5">Mentor APP</div>
         {% if authenticated %}
-        <li class="button is-light is-pulled-right"><a href="{% url 'logout_app' %}">Logout</a></li>
+
+        <div class="has-text-centered">
+            <img class="login-logo" src="{% static '/images/avatar.png' %}" height="100px" width="100px">
+        </div>
+
+        <div class="has-text-centered is-size-6">
+            Hello {{user}}
+        </div>
+        <div class="navbar-menu">
+            <div>
+                <a href="{% url 'college_html' %}" class="navbar-item is-focused">Home Page</a>
+            </div>
+            <div class="button is-light navbar-end ">
+                <a href="{% url 'logout_app' %}">Logout</a>
+            </div>
+        </div>
+
         {% endif %}
-    </ul>
-</nav>
+    </nav>
 </section>
-<div class="centerall">
 {% block content %}
 {% endblock %}
-</div>
 </body>
 </html>

@@ -26,7 +26,8 @@ class LoginView(View):
                       context={
                           'title': 'Login | Mentor App',
                           'form': form,
-                          'authenticated':request.user.is_authenticated
+                          'authenticated':request.user.is_authenticated,
+                          'user': request.user.username,
                       })
 
     def post(self, request, *args, **kwargs):
@@ -41,6 +42,7 @@ class LoginView(View):
                 return redirect('college_html')
             else:
                 messages.error(request,"Invalid Credentials")
+                return redirect('login_app')
 
 
 class SignUpView(View):
@@ -52,7 +54,8 @@ class SignUpView(View):
         return render(request, template_name='signup.html', context={
             'title': 'Sign Up | Mentor App',
             'form': form,
-            'authenticated': request.user.is_authenticated
+            'authenticated': request.user.is_authenticated,
+            'user': request.user.username,
         })
 
     def post(self,request):

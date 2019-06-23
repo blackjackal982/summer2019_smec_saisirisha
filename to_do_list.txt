@@ -22,6 +22,16 @@ new data?
 and multiple requests?
  DT20195426065:TCS 
 
+
+
+
+
+FINDINGS:
+
+1.openpyxl copies strings upto length of 32k others as stripped.
+2.why does the rocket image come up when new project is created?
+
+
 11. Active pooling and condition variables in python for threads.
 12. Global interpreter locker 
 13.Read about condition variables and find bugs.
