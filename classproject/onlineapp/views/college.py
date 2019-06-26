@@ -7,9 +7,12 @@ from onlineapp.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class CollegeView(LoginRequiredMixin, View):
+class CollegeView(View):
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login_app')
+
         if kwargs:
             college = get_object_or_404(College, **kwargs)
             students = list(college.student_set.order_by("-mocktest1__total"))
@@ -42,6 +45,9 @@ class CollegeView(LoginRequiredMixin, View):
 class AddCollegeView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
 
+        if not request.user.is_authenticated:
+            return redirect('login_app')
+
         form = AddCollege()
 
         if kwargs:
@@ -56,7 +62,7 @@ class AddCollegeView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
 
         if not request.user.is_authenticated:
-            redirect('login_app')
+            return redirect('login_app')
 
         if resolve(request.path_info).url_name == 'delete_college':
             College.objects.get(pk=kwargs.get('pk')).delete()

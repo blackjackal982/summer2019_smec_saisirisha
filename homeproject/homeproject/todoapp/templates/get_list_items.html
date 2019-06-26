@@ -3,7 +3,7 @@
 {% block content %}
 <a href="{% url 'add_item' list_id %}" class="button is-info">Add Item</a>
 {% if items %}
-<div align="center"><b>TO DO LIST {{lists}} ITEMS</b></div>
+<div align="center"><b>{{lists.0}}'s ITEMS</b></div>
 <div class="centerall">
 <table border="1px" class="table is-striped ">
     <tr>
@@ -21,8 +21,8 @@
         <td>{{item.completed}}</td>
         <td>
             <form method="POST">
-            <a href="" class="button is-warning">Edit</a>
-            <a href="{% url 'delete_item' list_id item.id%}" class="button is-danger">Delete</a>
+            <a href="{% url 'edit_item' list_id item.id %}" class="button is-warning">Edit</a>
+            <a href="{% url 'delete_item' list_id item.id %}" class="button is-danger">Delete</a>
             </form>
         </td>
     </tr>

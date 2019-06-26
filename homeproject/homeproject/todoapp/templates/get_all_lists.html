@@ -18,7 +18,7 @@
         <td>{{list.current}}</td>
         <td>
             <form method="POST">
-            <a href="" class="button is-warning">Edit</a>
+            <a href="{% url 'edit_list' list.id%}" class="button is-warning">Edit</a>
             <a href="{% url 'delete_list' list.id %}" class="button is-danger">Delete</a>
             </form>
         </td>

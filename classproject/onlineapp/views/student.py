@@ -11,7 +11,7 @@ class AddStudentView(View):
     def get(self, request, *args, **kwargs):
 
         if not request.user.is_authenticated:
-            redirect('login_app')
+            return redirect('login_app')
 
         student_form = AddStudent()
         college = College.objects.get(id=kwargs.get('pk'))
@@ -44,7 +44,7 @@ class AddStudentView(View):
     def post(self, request, *args, **kwargs):
 
         if not request.user.is_authenticated:
-            redirect('login_app')
+            return redirect('login_app')
 
         if resolve(request.path_info).url_name == 'edit_student':
             student = Student.objects.get(pk=kwargs.get('sk'))

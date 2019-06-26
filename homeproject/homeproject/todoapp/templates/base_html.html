@@ -15,6 +15,7 @@
         <li class="has-text-centered">TODO APP</li>
         {% if authenticated %}
         <li align="center">{{user}}</li>
+        <li><a href="{% url 'list_view' %}">Lists</a></li>
         <li class="button is-light is-pulled-right"><a href="{% url 'logout_app' %}">Logout</a></li>
         {% endif %}
     </ul>

@@ -67,12 +67,12 @@ class AddListView(View):
             redirect('login_app')
 
 
-        # if resolve(request.path_info).url_name == 'edit_college':
-        #     list= Todolist.objects.get(pk=kwargs.get('pk'))
-        #     form = AddCollege(request.POST, instance=college)
-        #     if form.is_valid():
-        #         form.save()
-        #         return HttpResponseRedirect('/colleges')
+        if resolve(request.path_info).url_name == 'edit_list':
+            list= Todolist.objects.get(pk=kwargs.get('pk'))
+            form = ListForm(request.POST, instance=list)
+            if form.is_valid():
+                form.save()
+                return redirect('list_view')
 
         form = ListForm(request.POST)
         if form.is_valid():
