@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Lists from "./todolist";
 import List_item from "./list_items";
-import { Card } from "reactstrap";
+import { Card, Button } from "reactstrap";
 
 class Display extends Component {
   constructor(props) {
@@ -11,6 +11,14 @@ class Display extends Component {
       listData: null
     };
     this.handler = this.handler.bind(this);
+    this.handleHome = this.handleHome.bind(this);
+  }
+
+  handleHome() {
+    this.setState({
+      itemData: [],
+      listData: null
+    });
   }
   handler(parent, child) {
     this.setState({
@@ -21,19 +29,36 @@ class Display extends Component {
   render() {
     return (
       <div className="content">
-        <h1 className="text-uppercase text-center my-4">
-          {sessionStorage.getItem("username")}'s Lists
-        </h1>
-        <div className="row">
+        <div style={{ display: "grid" }}>
+          <h1 className="text-uppercase text-center my-4">
+            {sessionStorage.getItem("username")}'s Lists
+          </h1>
+          <Button
+            onClick={this.handleHome}
+            color="success"
+            style={{
+              width: "10%",
+              fontSize: "20px",
+              fontWeight: "normal",
+              float: "right"
+            }}
+          >
+            Home &nbsp;
+            <i class="fa fa-home" />
+          </Button>
+        </div>
+        <div className="row justify-content-center">
           <Card>
             <img
               className="card-img-top"
               src="/images/board.jpg"
               alt="Card image cap"
               style={{
-                width: "80wh",
-                height: "70wh",
-                padding: "0 10px"
+                width: "auto",
+                height: "auto",
+                padding: "0 10px",
+                maxHeight: "100%",
+                maxWidth: "100%"
               }}
             />
             <div className="card-img-overlay">
@@ -41,9 +66,10 @@ class Display extends Component {
                 <List_item
                   list={this.state.listData}
                   items={this.state.itemData}
+                  action={this.handler}
                 />
               ) : (
-                <Lists action={this.handler} />
+                <Lists action={this.handler} user_id={this.props.user_id} />
               )}
             </div>
           </Card>

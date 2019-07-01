@@ -3,6 +3,7 @@ import LoginForm from "./components/login";
 import SignupForm from "./components/signup";
 import Nav from "./components/nav";
 import Display from "./components/dashboard";
+import { Alert } from "reactstrap";
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +11,9 @@ class App extends Component {
     this.state = {
       displayed_form: "",
       logged_in: sessionStorage.getItem("token") ? true : false,
-      username: ""
+      username: "",
+      errors: null,
+      user_id: 0
     };
   }
 
@@ -41,12 +44,17 @@ class App extends Component {
       .then(json => {
         sessionStorage.setItem("token", json.token);
         sessionStorage.setItem("username", json.user.username);
-        sessionStorage.setItem("userid", json.user.id);
         this.setState({
           logged_in: true,
           displayed_form: "",
-          username: json.user.username
+          username: json.user.username,
+          errors: null,
+          user_id: json.user.id
         });
+      })
+      .catch(errors => {
+        this.setState({ errors: errors, logged_in: false, user_id: 0 });
+        sessionStorage.removeItem("token");
       });
   };
 
@@ -62,20 +70,31 @@ class App extends Component {
       .then(res => res.json())
       .then(json => {
         sessionStorage.setItem("token", json.token);
-        sessionStorage.setItem("username", json.user.username);
+        sessionStorage.setItem("username", json.username);
         this.setState({
           logged_in: true,
           displayed_form: "",
-          username: json.username
+          username: json.username,
+          user_id: json.id
         });
+      })
+      .catch(errors => {
+        this.setState({ errors: errors, logged_in: false, user_id: 0 });
+        sessionStorage.removeItem("token");
       });
   };
 
   handle_logout = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("username");
-    sessionStorage.removeItem("userid");
     this.setState({ logged_in: false, username: "" });
+  };
+
+  handle_errors = event => {
+    this.setState({
+      errors: null,
+      logged_in: false
+    });
   };
 
   display_form = form => {
@@ -88,23 +107,40 @@ class App extends Component {
     let form;
     switch (this.state.displayed_form) {
       case "login":
-        form = <LoginForm handle_login={this.handle_login} />;
+        form = (
+          <LoginForm
+            handle_login={this.handle_login}
+            errors={this.handle_errors}
+          />
+        );
         break;
       case "signup":
-        form = <SignupForm handle_signup={this.handle_signup} />;
+        form = (
+          <SignupForm
+            handle_signup={this.handle_signup}
+            errors={this.handle_errors}
+          />
+        );
         break;
       default:
         form = null;
     }
     return (
-      <div className="App">
+      <div className="App" style={{ fontSize: "20px" }}>
         <Nav
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
         />
+        {this.state.errors ? (
+          <Alert color="danger">Invalid Credentials</Alert>
+        ) : null}
         {form}
-        {this.state.logged_in ? <Display /> : "Please Log In"}
+        {this.state.logged_in ? (
+          <Display user_id={this.state.user_id} />
+        ) : this.state.displayed_form ? null : (
+          "Please Login/Signup"
+        )}
       </div>
     );
   }

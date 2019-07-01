@@ -31,7 +31,7 @@ class ListModalForm extends Component {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        id: `${sessionStorage.getItem("userid")}`,
+        id: `${this.props.user_id}`,
         Authorization: `JWT ${sessionStorage.getItem("token")}`
       },
       mode: "cors",
@@ -92,8 +92,6 @@ class ListModalForm extends Component {
   }
 
   render() {
-    //console.log(this.props.title);
-    //console.log(this.state.isOpen);
     return (
       <div>
         <Modal

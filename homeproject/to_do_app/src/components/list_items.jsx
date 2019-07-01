@@ -13,7 +13,28 @@ class List_item extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
-
+  post_successful = event => {
+    console.log();
+    fetch(
+      "http://localhost:8000/api_view/v1/lists/" +
+        this.props.list.id +
+        "/items",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          id: `${sessionStorage.getItem("userid")}`,
+          Authorization: `JWT ${sessionStorage.getItem("token")}`
+        },
+        mode: "cors"
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.props.action(this.props.list, data);
+      });
+  };
   handleClick() {
     this.setState({
       isAddItem: !this.state.isAddItem
@@ -43,6 +64,7 @@ class List_item extends Component {
       .then(response => {
         if (response.ok) {
           alert("Item Deleted Successfully!");
+          this.post_successful(response.ok);
           return response.json();
         } else {
           alert("Error occurred!Please Try Again Later");
@@ -54,7 +76,7 @@ class List_item extends Component {
     return (
       <section>
         <label
-          className="card-title text-dark"
+          className="card-title text-light"
           style={{
             fontSize: "30px",
             fontWeight: "bold"
@@ -62,6 +84,7 @@ class List_item extends Component {
         >
           {this.props.list.name}
         </label>
+        <div />
         <div>
           <Button
             onClick={this.handleClick}
@@ -76,6 +99,7 @@ class List_item extends Component {
               id={this.props.list.id}
               handleClick={this.handleClick}
               new_item={true}
+              post_successful={this.post_successful}
             />
           ) : null}
         </div>
@@ -140,6 +164,7 @@ class List_item extends Component {
                           new_item={false}
                           handleClick={this.handleEdit}
                           item={this.state.item}
+                          post_successful={this.post_successful}
                         />
                       ) : null}
                       <button

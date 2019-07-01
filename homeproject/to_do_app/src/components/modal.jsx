@@ -14,13 +14,18 @@ import {
 class ModalForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isOpen: true,
       item_desc: this.props.new_item
         ? "Enter item description"
         : this.props.item.description,
       date: this.props.new_item ? "" : this.props.item.due_date,
-      check: this.props.new_item ? 0 : String(this.props.item.completed) ? 1 : 0
+      check: this.props.new_item
+        ? 0
+        : String(this.props.item.completed) == "true"
+        ? 1
+        : 0
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -29,22 +34,6 @@ class ModalForm extends Component {
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  post_successful = event => {
-    console.log();
-    // fetch(
-    //   "http://localhost:8000/api_view/v1/lists/" +
-    //     this.props.list.id +
-    //     "/items",
-    //   {
-    //     method: "GET"
-    //   }
-    // )
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.props.items = data;
-    //   });
-  };
 
   handleSubmit(event) {
     event.preventDefault();
@@ -68,6 +57,7 @@ class ModalForm extends Component {
       .then(response => {
         if (response.ok) {
           alert("Item Added Successfully!");
+          this.props.post_successful(response.ok);
           return response.json();
         } else {
           alert("Error occurred!Please Try Again Later");
@@ -102,6 +92,7 @@ class ModalForm extends Component {
       .then(response => {
         if (response.ok) {
           alert("Item Updated Successfully!");
+          this.props.post_successful(response.ok);
           return response.json();
         } else {
           alert("Error occurred!Please Try Again Later");
@@ -112,7 +103,7 @@ class ModalForm extends Component {
   }
 
   handleClose() {
-    this.setState({ isOpen: false });
+    this.setState({ isOpen: false, check: 0 });
     this.props.new_item ? this.props.handleClick() : this.props.handleClick(0);
   }
 
@@ -134,8 +125,6 @@ class ModalForm extends Component {
     });
   }
   render() {
-    //console.log(this.props.title);
-    //console.log(this.state.isOpen);
     return (
       <div>
         <Modal

@@ -1,29 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
 
 function NavBar(props) {
   const logged_out_nav = (
     <Navbar color="dark" light expand="md">
-      <NavbarBrand
-        href="/"
-        style={{
-          fontSize: "20px",
-          color: "whitesmoke"
-        }}
-      >
-        TODOAPP
+      <NavbarBrand href="/">
+        <img src="/images/logo.png" alt="Logo" title="Logo" width="138" />
       </NavbarBrand>
       <Nav className="ml-auto" navbar>
         <NavItem
           onClick={() => props.display_form("login")}
           className="btn btn-primary m-2"
+          style={{ fontSize: "15px" }}
         >
           login
         </NavItem>
         <NavItem
           onClick={() => props.display_form("signup")}
           className="btn btn-primary m-2"
+          style={{ fontSize: "15px" }}
         >
           signup
         </NavItem>
@@ -40,10 +35,22 @@ function NavBar(props) {
           color: "whitesmoke"
         }}
       >
-        {sessionStorage.getItem("username")}
+        <img src="/images/logo.png" alt="Logo" title="Logo" width="138" />
       </NavbarBrand>
       <Nav className="ml-auto" navbar>
-        <NavItem onClick={props.handle_logout} className="btn btn-primary m-2">
+        <NavItem
+          className="text-light"
+          style={{ fontSize: "15px", paddingTop: "10px" }}
+        >
+          <i className="fa fa-user-circle-o m-2" />
+          {sessionStorage.getItem("username")}
+        </NavItem>
+        <br />
+        <NavItem
+          onClick={props.handle_logout}
+          className="btn btn-primary m-2"
+          style={{ fontSize: "15px" }}
+        >
           logout
         </NavItem>
       </Nav>
@@ -53,9 +60,3 @@ function NavBar(props) {
 }
 
 export default NavBar;
-
-NavBar.propTypes = {
-  logged_in: PropTypes.bool.isRequired,
-  display_form: PropTypes.func.isRequired,
-  handle_logout: PropTypes.func.isRequired
-};

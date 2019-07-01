@@ -23,7 +23,7 @@ class Lists extends Component {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        id: `${sessionStorage.getItem("userid")}`,
+        id: `${this.props.user_id}`,
         Authorization: `JWT ${sessionStorage.getItem("token")}`
       },
       mode: "cors"
@@ -91,7 +91,7 @@ class Lists extends Component {
       mode: "cors",
       headers: {
         Authorization: `JWT ${sessionStorage.getItem("token")}`,
-        id: `${sessionStorage.getItem("userid")}`
+        id: `${this.props.user_id}`
       },
       credentials: "include"
     })
@@ -140,6 +140,7 @@ class Lists extends Component {
                 String("Add list to " + sessionStorage.getItem("username")) +
                 " database"
               }
+              user_id={this.props.user_id}
               handleClick={this.handleClick}
               new_item={true}
               post_successful={this.post_successful}
@@ -171,7 +172,7 @@ class Lists extends Component {
                           alt="Card image cap"
                         />
                         <div className="card-img-overlay">
-                          {p.name}
+                          <label style={{ fontSize: "15px" }}>{p.name}</label>
                           <button
                             onClick={() => this.handleList(p)}
                             className="btn btn-primary text-left"
@@ -197,6 +198,7 @@ class Lists extends Component {
                           </button>
                           {this.state.isEditList ? (
                             <ListModalForm
+                              user_id={this.props.user_id}
                               title={String(
                                 "Edit list " + this.state.isEditList
                               )}
