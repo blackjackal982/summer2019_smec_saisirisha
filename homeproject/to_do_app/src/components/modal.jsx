@@ -1,74 +1,193 @@
 import React, { Component } from "react";
-import { Modal, Button, ModalFooter, ModalBody, ModalHeader } from "reactstrap";
+import {
+  Modal,
+  Button,
+  ModalFooter,
+  ModalBody,
+  Form,
+  FormGroup,
+  ModalHeader,
+  Label,
+  Input
+} from "reactstrap";
 
 class ModalForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: true
+      isOpen: true,
+      item_desc: this.props.new_item
+        ? "Enter item description"
+        : this.props.item.description,
+      date: this.props.new_item ? "" : this.props.item.due_date,
+      check: this.props.new_item ? 0 : String(this.props.item.completed) ? 1 : 0
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+    this.handleDate = this.handleDate.bind(this);
+    this.handleText = this.handleText.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleClose() {
-    this.setState({ show: false });
-  }
-  handleChange(event) {
-    this.setState({ text: event.target.value });
-  }
+
+  post_successful = event => {
+    console.log();
+    // fetch(
+    //   "http://localhost:8000/api_view/v1/lists/" +
+    //     this.props.list.id +
+    //     "/items",
+    //   {
+    //     method: "GET"
+    //   }
+    // )
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     this.props.items = data;
+    //   });
+  };
 
   handleSubmit(event) {
     event.preventDefault();
-    let data = {
-      text: this.state.text
-    };
-    fetch("http://localhost:8000/api_view/v1/lists/" + this.props.id, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      mode: "cors",
-      body: JSON.stringify(data)
-    })
+    fetch(
+      "http://localhost:8000/api_view/v1/lists/" + this.props.id + "/items/",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `JWT ${sessionStorage.getItem("token")}`
+        },
+        mode: "cors",
+        body: JSON.stringify({
+          description: this.state.item_desc,
+          due_date: this.state.date,
+          completed: String(this.state.check)
+        })
+      }
+    )
       .then(response => {
         if (response.ok) {
-          alert("Item added Successfully!");
-          this.props.updateSuccess(true);
+          alert("Item Added Successfully!");
+          return response.json();
         } else {
-          alert("An error occurred !\n    Please try again later");
+          alert("Error occurred!Please Try Again Later");
         }
       })
       .catch(error => console.log(error));
+    this.handleClose();
   }
 
+  handleUpdate(event) {
+    event.preventDefault();
+    fetch(
+      "http://localhost:8000/api_view/v1/lists/" +
+        this.props.id +
+        "/items/" +
+        this.props.item.id,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `JWT ${sessionStorage.getItem("token")}`
+        },
+        mode: "cors",
+        body: JSON.stringify({
+          description: this.state.item_desc,
+          due_date: this.state.date,
+          completed: String(this.state.check)
+        })
+      }
+    )
+      .then(response => {
+        if (response.ok) {
+          alert("Item Updated Successfully!");
+          return response.json();
+        } else {
+          alert("Error occurred!Please Try Again Later");
+        }
+      })
+      .catch(error => console.log(error));
+    this.handleClose();
+  }
+
+  handleClose() {
+    this.setState({ isOpen: false });
+    this.props.new_item ? this.props.handleClick() : this.props.handleClick(0);
+  }
+
+  handleText(event) {
+    this.setState({
+      item_desc: event.target.value
+    });
+  }
+
+  handleDate(event) {
+    this.setState({
+      date: event.target.value
+    });
+  }
+
+  handleCheck(event) {
+    this.setState({
+      check: !this.state.check
+    });
+  }
   render() {
-    console.log(this.props.title);
-    console.log(this.state.show);
+    //console.log(this.props.title);
+    //console.log(this.state.isOpen);
     return (
       <div>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <ModalHeader closeButton>{this.props.title}</ModalHeader>
-
-          {/* <label className="text-danger">Description:</label>
-          <textarea
-            className="form-control mr-sm-2 m-2"
-            onChange={this.handleChange}
-            style={{ height: 200 }}
-          />
-          <br />
-          <label className="text-danger">Due_date:</label>
-          <input type="date" />
-          <br />
-          <label className="text-danger">Completed:</label>
-          <input type="checkbox" />
-          <br /> */}
-          <ModalBody>Woohoo, you're reading this text in a modal!</ModalBody>
+        <Modal
+          isOpen={this.state.isOpen}
+          fade={true}
+          onClose={this.handleClose}
+        >
+          <ModalHeader>{this.props.title}</ModalHeader>
+          <ModalBody>
+            <Form>
+              <FormGroup>
+                <Label for="description">Description</Label>
+                <Input
+                  type="textarea"
+                  name="description"
+                  id="description"
+                  value={this.state.item_desc}
+                  onChange={this.handleText}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="description">Due Date</Label>
+                <Input
+                  type="date"
+                  name="date"
+                  id="date"
+                  value={this.state.date}
+                  onChange={this.handleDate}
+                />
+              </FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input
+                    type="checkbox"
+                    onChange={this.handleCheck}
+                    checked={this.state.check ? "checked" : ""}
+                  />{" "}
+                  Completed
+                </Label>
+              </FormGroup>
+            </Form>
+          </ModalBody>
           <ModalFooter>
-            <Button variant="secondary" onClick={this.handleClose}>
+            <Button color="danger" onClick={this.handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.handleClose}>
+            <Button
+              color="success"
+              onClick={
+                this.props.new_item ? this.handleSubmit : this.handleUpdate
+              }
+            >
               Save Changes
             </Button>
           </ModalFooter>
